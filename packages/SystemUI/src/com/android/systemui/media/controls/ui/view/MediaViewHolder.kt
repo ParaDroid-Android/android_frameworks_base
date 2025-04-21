@@ -30,6 +30,7 @@ import com.android.systemui.surfaceeffects.loadingeffect.LoadingEffectView
 import com.android.systemui.surfaceeffects.ripple.MultiRippleView
 import com.android.systemui.surfaceeffects.turbulencenoise.TurbulenceNoiseView
 import com.android.systemui.util.animation.TransitionLayout
+import com.android.systemui.media.WaveformSeekBar
 
 private const val TAG = "MediaViewHolder"
 
@@ -55,7 +56,7 @@ class MediaViewHolder constructor(itemView: View) {
     val seamlessButton = itemView.requireViewById<View>(R.id.media_seamless_button)
 
     // Seekbar views
-    val seekBar = itemView.requireViewById<SeekBar>(R.id.media_progress_bar)
+    val seekBar = itemView.requireViewById<WaveformSeekBar>(R.id.media_progress_bar)
     // These views are only shown while the user is actively scrubbing
     val scrubbingElapsedTimeView: TextView =
         itemView.requireViewById(R.id.media_scrubbing_elapsed_time)

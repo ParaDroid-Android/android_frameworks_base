@@ -256,19 +256,16 @@
 
     <!-- Seek Bar -->
     <!-- As per Material Design on Bidirectionality, this is forced to LTR in code -->
-    <SeekBar
-        android:id="@+id/media_progress_bar"
-        style="@style/MediaPlayer.ProgressBar"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:paddingTop="@dimen/qs_media_session_enabled_seekbar_vertical_padding"
-        android:paddingBottom="12dp"
-        android:maxHeight="@dimen/qs_media_enabled_seekbar_height"
-        android:splitTrack="false"
-        android:layout_marginBottom="@dimen/qs_media_padding"
-        android:layout_marginTop="0dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp" />
+    <com.android.systemui.media.WaveformSeekBar
+    android:id="@+id/media_progress_bar"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:paddingTop="@dimen/qs_media_session_enabled_seekbar_vertical_padding"
+    android:paddingBottom="12dp"
+    android:layout_marginBottom="@dimen/qs_media_padding"
+    android:layout_marginTop="0dp"
+    android:layout_marginStart="0dp"
+    android:layout_marginEnd="0dp" />
 
     <ImageButton
         android:id="@+id/actionNext"

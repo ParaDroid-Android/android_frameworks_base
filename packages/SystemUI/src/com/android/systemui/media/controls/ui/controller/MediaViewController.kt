@@ -57,6 +57,7 @@ import com.android.systemui.surfaceeffects.turbulencenoise.TurbulenceNoiseAnimat
 import com.android.systemui.surfaceeffects.turbulencenoise.TurbulenceNoiseController
 import com.android.systemui.surfaceeffects.turbulencenoise.TurbulenceNoiseShader
 import com.android.systemui.surfaceeffects.turbulencenoise.TurbulenceNoiseView
+import com.android.systemui.media.WaveformSeekBar
 import com.android.systemui.util.animation.MeasurementInput
 import com.android.systemui.util.animation.MeasurementOutput
 import com.android.systemui.util.animation.TransitionLayout
@@ -349,6 +350,7 @@ constructor(
             }
             seekBarViewModel.removeScrubbingChangeListener(scrubbingChangeListener)
             seekBarViewModel.removeEnabledChangeListener(enabledChangeListener)
+            mediaViewHolder?.seekBar?.animateOut()
             seekBarViewModel.onDestroy()
         }
         mediaHostStatesManager.removeController(this)
@@ -668,10 +670,28 @@ constructor(
     fun attachPlayer(mediaViewHolder: MediaViewHolder) {
         if (!SceneContainerFlag.isEnabled) return
         this.mediaViewHolder = mediaViewHolder
-
+        mediaViewHolder.seekBar.animateIn()
         // Setting up seek bar.
         seekBarObserver = SeekBarObserver(mediaViewHolder)
         seekBarViewModel.progress.observeForever(seekBarObserver)
+        // Set waveform color from album art
+        mediaData.artwork?.let { bitmap ->
+             mediaViewHolder.seekBar.setWaveColorFromBitmap(bitmap)
+        }
+        // Attach audio visualizer
+        mediaData.token?.let { token ->
+             val controller = MediaController(context, token)
+             val sessionId = controller.playbackInfo?.audioSessionId ?: -1
+             if (sessionId > 0) {
+        mediaViewHolder.seekBar.attachToSession(sessionId)
+        }
+    }
+
+        // Touch seek
+        mediaViewHolder.seekBar.setOnSeekListener { progress ->
+             val seekTo = (progress * seekBarViewModel.max.toFloat()).toLong()
+        seekBarViewModel.seekTo(seekTo)
+    }
         seekBarViewModel.attachTouchHandlers(mediaViewHolder.seekBar)
         seekBarViewModel.setScrubbingChangeListener(scrubbingChangeListener)
         seekBarViewModel.setEnabledChangeListener(enabledChangeListener)
