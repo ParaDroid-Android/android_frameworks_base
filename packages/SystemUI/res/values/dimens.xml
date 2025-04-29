@@ -1523,6 +1523,10 @@
     <dimen name="media_output_dialog_icon_left_radius">28dp</dimen>
     <dimen name="media_output_dialog_icon_right_radius">0dp</dimen>
 
+    <!-- Clock top margins for lockscreen -->
+    <dimen name="keyguard_big_clock_top_margin">48dp</dimen>
+    <dimen name="keyguard_small_clock_top_margin">16dp</dimen>
+
     <!-- Distance that the full shade transition takes in order to complete by tapping on a button
          like "expand". -->
     <dimen name="lockscreen_shade_transition_by_tap_distance">200dp</dimen>

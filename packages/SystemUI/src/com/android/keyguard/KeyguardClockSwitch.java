@@ -454,6 +454,33 @@ public class KeyguardClockSwitch extends RelativeLayout {
         mStatusAreaAnim.start();
     }
 
+    private void updateSmartspacePosition() {
+        if (mSmartspace == null) return;
+
+        ViewGroup parent = (ViewGroup) mSmartspace.getParent();
+        if (parent == null) return;
+
+        parent.removeView(mSmartspace);
+        int clockIndex = parent.indexOfChild(this); // 'this' is KeyguardClockSwitch
+        parent.addView(mSmartspace, clockIndex + 1);
+    }
+
+    private void updateClockTopMargin(boolean useLargeClock) {
+        ViewGroup.LayoutParams lp = getLayoutParams();
+        if (!(lp instanceof ViewGroup.MarginLayoutParams)) {
+           return;
+        }
+        ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) lp;
+
+        int topMargin = getResources().getDimensionPixelSize(
+           useLargeClock
+                ? com.android.systemui.customization.R.dimen.keyguard_big_clock_top_margin
+                : com.android.systemui.customization.R.dimen.keyguard_small_clock_top_margin
+        );
+        marginLayoutParams.topMargin = topMargin;
+        setLayoutParams(marginLayoutParams);
+    }
+
     /**
      * Display the desired clock and hide the other one
      *
@@ -471,6 +498,8 @@ public class KeyguardClockSwitch extends RelativeLayout {
         // translate them properly
         if (mChildrenAreLaidOut) {
             updateClockViews(useLargeClock, animate);
+            updateSmartspacePosition();
+            updateClockTopMargin(useLargeClock);
         }
 
         mDisplayedClockSize = clockSize;
