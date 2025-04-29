@@ -1,0 +1,11 @@
+<com.android.systemui.shared.clocks.TwoToneClockView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/clock_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textSize="48sp"
+    android:textStyle="bold"
+    android:fontFamily="sans-serif-medium"
+    android:gravity="center"
+    android:singleLine="false"
+    android:importantForAccessibility="yes"/>

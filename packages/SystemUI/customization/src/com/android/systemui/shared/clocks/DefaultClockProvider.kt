@@ -29,6 +29,7 @@ import com.android.systemui.plugins.clocks.ClockProvider
 import com.android.systemui.plugins.clocks.ClockSettings
 import com.android.systemui.shared.clocks.view.HorizontalAlignment
 import com.android.systemui.shared.clocks.view.VerticalAlignment
+import com.android.systemui.shared.clocks.OneUi7BoldClockController
 
 private val TAG = DefaultClockProvider::class.simpleName
 const val DEFAULT_CLOCK_ID = "DEFAULT"
@@ -56,7 +57,10 @@ class DefaultClockProvider(
         messageBuffers = buffers
     }
 
-    override fun getClocks(): List<ClockMetadata> = listOf(ClockMetadata(DEFAULT_CLOCK_ID))
+    override fun getClocks(): List<ClockMetadata> = listOf(
+        ClockMetadata(DEFAULT_CLOCK_ID),
+        ClockMetadata("oneui7_bold")
+    )
 
     override fun createClock(settings: ClockSettings): ClockController {
         if (settings.clockId != DEFAULT_CLOCK_ID) {
@@ -91,6 +95,19 @@ class DefaultClockProvider(
                 migratedClocks,
                 messageBuffers,
             )
+        }
+    }
+    "oneui7_bold" -> OneUi7BoldClockController(ctx)
+
+        else -> throw IllegalArgumentException("${settings.clockId} is unsupported by $TAG")
+        }
+    }
+
+    override fun createExampleClock(clockId: String): ClockController? {
+        return when (clockId) {
+            "oneui7_bold" -> OneUi7BoldClockController(ctx)
+             DEFAULT_CLOCK_ID -> createClock(ClockSettings(clockId = DEFAULT_CLOCK_ID))
+             else -> null
         }
     }
 
